@@ -1,0 +1,10 @@
+.DS_Store
+*.swp
+*.bak
+
+credentials.h
+
+build/
+.pio/
+*.bin
+*.hex
