@@ -67,6 +67,8 @@ void setup() {
     Serial.println("   ESP32 Wireless UART Bridge");
     Serial.println("==================================================");
 
+    pinMode(UART_RX_PIN, INPUT_PULLUP);
+
     SerialBridge.begin(UART_BAUDRATE, SERIAL_8N1, UART_RX_PIN, UART_TX_PIN);
     Serial.println("[UART] Hardware UART2 initialized @ 115200 8N1");
 
@@ -97,6 +99,7 @@ void loop() {
             int bytesRead = client.read(buf, bytesToRead);
             if (bytesRead > 0) {
                 SerialBridge.write(buf, bytesRead);
+                Serial.printf("[BRIDGE] Forwarded %d bytes from Wi-Fi -> UART2\n", bytesRead);
             }
         }
 
@@ -106,6 +109,7 @@ void loop() {
             int bytesRead = SerialBridge.readBytes(buf, bytesToRead);
             if (bytesRead > 0) {
                 client.write(buf, bytesRead);
+                Serial.printf("[BRIDGE] Forwarded %d bytes from UART2 -> Wi-Fi\n", bytesRead);
             }
         }
     }
